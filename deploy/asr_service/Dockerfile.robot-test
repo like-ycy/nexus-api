@@ -1,0 +1,20 @@
+FROM registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-online-cpu-0.1.12
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
+
+WORKDIR /app
+
+RUN pip install \
+        fastapi==0.115.12 \
+        uvicorn[standard]==0.33.0 \
+        python-multipart==0.0.20 \
+        loguru==0.7.3
+
+COPY app.py /app/app.py
+
+EXPOSE 18081
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "18081"]

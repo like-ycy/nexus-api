@@ -1,0 +1,56 @@
+[project]
+name = "nexus-api"
+version = "0.1.0"
+description = "Nexus API cloud monolith v1"
+readme = "README.md"
+requires-python = "==3.10.*"
+dependencies = [
+    "asyncpg==0.30.0",
+    "fastapi==0.116.1",
+    "httpx==0.28.1",
+    "loguru==0.7.3",
+    "numpy==1.26.4",
+    "opuslib==3.0.1",
+    "python-multipart==0.0.20",
+    "sherpa-onnx==1.13.0",
+    "sherpa-onnx-bin==1.13.0",
+    "tomli==2.3.0",
+    "uvicorn==0.35.0",
+    "websockets==16.0",
+]
+
+[project.scripts]
+nexus-api = "src.app:main"
+
+[build-system]
+requires = ["uv_build==0.10.6"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy==1.20.2",
+    "pytest==8.4.0",
+    "ruff==0.15.12",
+]
+
+[tool.mypy]
+python_version = "3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.uv]
+package = false
+
+[[tool.mypy.overrides]]
+module = [
+    "asyncpg",
+    "asyncpg.*",
+    "opuslib",
+    "opuslib.*",
+    "sherpa_onnx",
+    "sherpa_onnx.*",
+    "websockets",
+    "websockets.*",
+]
+ignore_missing_imports = true

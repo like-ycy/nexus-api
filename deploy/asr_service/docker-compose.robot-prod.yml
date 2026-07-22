@@ -1,0 +1,16 @@
+services:
+  nexus-asr-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.robot-test
+    image: nexus-asr-service:robot-prod
+    container_name: nexus-asr-service
+    restart: unless-stopped
+    ports:
+      - "18081:18081"
+    environment:
+      ASR_MODEL_NAME: funasr-paraformer-zh
+      ASR_MODEL_DIR: /models/asr/funasr-paraformer-zh
+      ASR_DEVICE: cpu
+    volumes:
+      - /root/nexus-model-services/models:/models:ro

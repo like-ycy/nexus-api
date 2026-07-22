@@ -1,0 +1,29 @@
+services:
+  nexus-api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: nexus-api:robot-prod
+    container_name: nexus-api
+    restart: unless-stopped
+    ports:
+      - "8765:8765"
+      - "18082:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      NEXUS_CONFIG_PATH: config/env.prod.toml
+      NEXUS_WEBSOCKET__PORT: 8765
+      NEXUS_HTTP__PORT: 8080
+      NEXUS_SPEECH__MODELS_ROOT: /app/models
+      NEXUS_PROVIDERS__ASR: primary
+      NEXUS_PROVIDERS__TTS: remote_service
+      NEXUS_ASR__PRIMARY__ENDPOINT: http://host.docker.internal:18081/asr
+      NEXUS_TTS__REMOTE_SERVICE__STREAM_URL: http://host.docker.internal:18083/tts/stream
+    volumes:
+      - ../../models/vad:/app/models/vad:ro
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

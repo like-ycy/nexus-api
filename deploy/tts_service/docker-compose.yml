@@ -1,0 +1,15 @@
+services:
+  nexus-tts-service:
+    build: .
+    image: nexus-tts-service:latest
+    container_name: nexus-tts-service
+    restart: unless-stopped
+    ports:
+      - "18083:18083"
+    environment:
+      HUOSHAN_TTS_WS_URL: wss://openspeech.bytedance.com/api/v3/tts/bidirection
+      HUOSHAN_TTS_APPID: ${HUOSHAN_TTS_APPID:?missing HUOSHAN_TTS_APPID}
+      HUOSHAN_TTS_ACCESS_TOKEN: ${HUOSHAN_TTS_ACCESS_TOKEN:?missing HUOSHAN_TTS_ACCESS_TOKEN}
+      HUOSHAN_TTS_SPEAKER: zh_female_qinqienvsheng_moon_bigtts
+      HUOSHAN_TTS_RESOURCE_ID: volc.service_type.10029
+      HUOSHAN_TTS_ENABLE_WS_REUSE: "true"

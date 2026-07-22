@@ -1,0 +1,14 @@
+services:
+  nexus-asr-service:
+    build: .
+    image: nexus-asr-service:latest
+    container_name: nexus-asr-service
+    restart: unless-stopped
+    ports:
+      - "18081:18081"
+    environment:
+      ASR_MODEL_NAME: funasr-paraformer-zh
+      ASR_MODEL_DIR: /models/asr/funasr-paraformer-zh
+      ASR_DEVICE: cpu
+    volumes:
+      - /root/nexus-model-services/models:/models:ro
